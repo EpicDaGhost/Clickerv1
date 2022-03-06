@@ -1,0 +1,90 @@
+<!doctype html>
+<head>
+    <h1>Welcome To Random Clicker!</h1>
+    <p>Made By Epic Hardway</p>
+    <style> 
+    body {
+        background-color: #009dff;
+      }
+</style>
+    <title>Random Clicker</title>
+    <script>
+        var clicker = {
+            clicks:0, 
+            upgrades: {
+                clicks_machine:{
+                    amount:0,
+                    cost:10,
+                    cps:1,
+                    name:"Clone Clicker"
+                },
+                clicks_factory:{
+                    amount:0,
+                    cost:50,
+                    cps:100,
+                    name:"Clone Factory"
+                },
+                clicks_network:{
+                    amount:0,
+                    cost:500,
+                    cps:1000,
+                    name:"Clone Factory Network"
+                },
+                clicks_monster:{
+                    amount:0,
+                    cost:100000,
+                    cps:10000,
+                    name:"Clicking Monster"
+                },
+                hyper_clicker:{
+                    amount:0,
+                    cost:1000000,
+                    cps:100000,
+                    name:"Hyper Clicker"
+                },
+                super_hydra:{
+                    amount:0,
+                    cost:100000000,
+                    cps:10000000,
+                    name:"Super Hydra"
+                }
+            }
+        };
+        function thing_clicked(thing){
+            if(clicker.upgrades[thing].cost <= clicker.clicks){
+                clicker.clicks-= clicker.upgrades[thing].cost;
+            clicker.upgrades[thing].amount++;
+            clicker.upgrades[thing].cost += Math.round(clicker.upgrades[thing].cost*0.31);
+            update_upgrades(); 
+            }
+        }
+        function update_upgrades(){
+            document.querySelector("#upgrades").innerHTML="";
+            for(i in clicker.upgrades){
+                document.querySelector("#upgrades").innerHTML+= `<br> <button onclick="thing_clicked('${i}')">${clicker.upgrades
+                    [i].name}</button> you have ${clicker.upgrades[i].amount}. Cost: ${clicker.upgrades[i].cost}`;
+            }
+        }
+        function updatecount(){
+            update_upgrades();
+            setInterval(() => {
+                for(i in clicker.upgrades)
+                clicker.clicks+=clicker.upgrades[i].amount*clicker.upgrades[i].cps/20
+
+            document.querySelector("#clicks").innerHTML = "You have "+String(clicker.clicks).split(".")[0]+" clicker"
+            },50)
+        }
+    </script>
+</head>
+<body onload="updatecount()">
+    <h1 id="clicks">You have 0 clicks!</h1>
+    <button onclick="clicker.clicks++">Get 1 click</button>
+    <div id="upgrades"></div>
+</body>
+<script>
+    $(document).keypress(function(e) {
+  if(e.which == 13) {
+    clicker.upgrades++
+  }
+});
+</script>
